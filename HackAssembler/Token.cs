@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace HackAssembler
 {
     class Token
     {
         public Token_Type tokenType;
-        string original = "";
+        public string original = "";
         public string convertedValue = "";
         private int lineNumber;
+        //private Dictionary<string, int> _symbolTable;
 
         public Token(string line)
         {
@@ -41,11 +43,15 @@ namespace HackAssembler
                 convertedValue = ConvertCType(line);
             }
         }
-
-        public Token(string line, int lineNumber, out bool wasStmt) : this(line)
+        /*
+        public Token(string line, int lineNumber, out bool wasStmt, Dictionary<string,int> _symbolTable) : this(line)
         {
             this.lineNumber = lineNumber;
-            if(this.tokenType == Token_Type.CONSTANT || this.tokenType == Token_Type.CTYPE)
+            if(this.tokenType == Token_Type.CONSTANT)
+            {
+
+            }
+            /*if(this.tokenType == Token_Type.CTYPE)
             {
                 wasStmt = true;
             }
@@ -53,6 +59,20 @@ namespace HackAssembler
             {
                 wasStmt = false;
             }
+            wasStmt = tokenType == Token_Type.CONSTANT || tokenType == Token_Type.CTYPE;
+        }
+        */
+        public Token(string line, int nextVar, Dictionary<string, int> _symbolTable) : this(line)
+        {
+            if(tokenType == Token_Type.CONSTANT && convertedValue == "0")
+            {
+                string newVariable = original.Substring(1, original.Length - 1);
+                if (!_symbolTable.ContainsKey(newVariable))
+                {
+                    _symbolTable.Add(newVariable, nextVar);
+                }
+                convertedValue = "0" + DecimalToBinary(_symbolTable[newVariable]+"", 15);
+            }   
         }
 
         private static string ConvertCType(string line)
@@ -109,7 +129,10 @@ namespace HackAssembler
                 return this;
             try {
                 int val = _symbolTable[search];
-                return new Token("@" + val);
+                char[] convert = DecimalToBinary(val + "", 15).ToCharArray();
+                //Array.Reverse(convert);
+                convertedValue = "0" + new string(convert);
+                return this;
             }
             catch(Exception ex)
             {

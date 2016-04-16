@@ -16,16 +16,23 @@ namespace HackAssembler
         private string assembly_file_name = "";
         private FileInfo inputAssembly;
         private List<string> assemblyLines;
-        private List<Token> tokenPreProcess;
+        private List<string> tokenPreProcess;
         private List<Token> tokenPostProcess;
         private Dictionary<string, int> _symbolTable;
+        private int nextVarLocation = 0x0010;
+
+        private string _lastTok
+        {
+            get
+            {
+                return tokenPreProcess.Count > 0 ? tokenPreProcess[tokenPreProcess.Count - 1] : "";
+            }
+        }
 
         public Assembler()
         {
             this.assemblyLines = new List<string>();
-            this.tokenPreProcess = new List<Token>();
-            this.tokenPostProcess = new List<Token>();
-            this.GenerateSymbolTable();
+            //this.GenerateSymbolTable();
         }
 
         public Assembler(string fileName)
@@ -80,11 +87,6 @@ namespace HackAssembler
             assemblyLines = new List<string>(File.ReadAllLines(this.assembly_file_name));
         }
 
-        internal void ProcessLines()
-        {
-            tokenPreProcess = new List<Token>();
-        }
-
         public void LoadFile(string fileName)
         {
             if (!File.Exists(fileName))
@@ -95,20 +97,53 @@ namespace HackAssembler
 
         public bool Pass_1()
         {
-            this.tokenPreProcess = new List<Token>();
+            tokenPreProcess = new List<string>();
             try
             {
                 int lineNumber = 0;
+                nextVarLocation = 0x0010;
                 foreach (string assemblyLine in this.assemblyLines)
                 {
-                    bool wasStmt = false;
+                    string line = assemblyLine.TrimStart(' ');
+                    if (line.Length >= 2 && line.Substring(0, 2) == Assembler_Constants.LINE_COMMENT) ;
+                    else if (line.Length >= 2) {
+                        tokenPreProcess.Add(line.Split(' ')[0]);
+                        if(line[0] != '(')
+                            lineNumber++;
+                    }
+                    //Add Label
+                    if(_lastTok.Contains("("))
+                    {
+                        if (!_symbolTable.ContainsKey(_lastTok.Trim('(', ')'))){
+                            _symbolTable.Add(_lastTok.Trim('(', ')'), lineNumber);
+                        }
+                    }
+                    //Add Variable
+                    /*if (_lastTok.Contains(Assembler_Constants.CONSTANT))
+                    {
+                        int tmp;
+                        if (!_symbolTable.ContainsKey(_lastTok.Substring(1, _lastTok.Length - 1)) &&
+                            !int.TryParse(_lastTok.Substring(1, _lastTok.Length - 1), out tmp))
+                        {
+                            _symbolTable.Add(_lastTok.Trim('@'), nextVarLocation);
+                            nextVarLocation++;
+                        }
+                    }*/
+                    /*bool wasStmt = false;
                     tokenPreProcess.Add(new Token(assemblyLine, lineNumber, out wasStmt));
+                    if (_lastTok.tokenType == Token_Type.CONSTANT
+                        && _lastTok.convertedValue == "0")
+                    {
+                        _symbolTable.Add(_lastTok.original.Split(new string[] { " ", "@" }, StringSplitOptions.RemoveEmptyEntries)[0], nextVarLocation);
+                        nextVarLocation++;
+                    }
                     if (wasStmt)
                         ++lineNumber;
                     else if (tokenPreProcess[tokenPreProcess.Count - 1].tokenType == Token_Type.LABEL)
                     {
                         _symbolTable.Add(tokenPreProcess[tokenPreProcess.Count - 1].convertedValue, lineNumber);
-                    }
+                    }*/
+                    
                 }
             }
             catch (Exception ex)
@@ -120,12 +155,13 @@ namespace HackAssembler
 
         public bool Pass_2()
         {
-            this.tokenPostProcess = new List<Token>();
+            tokenPostProcess = new List<Token>();
             try
             {
-                foreach (Token token in this.tokenPreProcess)
+                List<string> debug = new List<string>();
+                foreach (string token in tokenPreProcess)
                 {
-                    switch (token.tokenType)
+                    /*switch (token.tokenType)
                     {
                         case Token_Type.CTYPE:
                             this.tokenPostProcess.Add(token);
@@ -133,6 +169,21 @@ namespace HackAssembler
                         case Token_Type.CONSTANT:
                             this.tokenPostProcess.Add(token.Reprocess(_symbolTable));
                             break;
+                    }*/
+                    int tmp = _symbolTable.Keys.Count;
+                    Token tok = new Token(token, nextVarLocation, _symbolTable);
+                    if(tok.original == "@math.1")
+                    {
+                        ;
+                    }
+                    if (tok.tokenType == Token_Type.CONSTANT || tok.tokenType == Token_Type.CTYPE) { 
+                        tokenPostProcess.Add(tok);
+                    }
+                    //A variable was declared
+                    if(_symbolTable.Keys.Count > tmp)
+                    {
+                        debug.Add(tok.original + " " + _symbolTable[tok.original.TrimStart('@')]);
+                        nextVarLocation++;
                     }
                 }
             }
@@ -146,6 +197,7 @@ namespace HackAssembler
 
         public void Assemble()
         {
+            GenerateSymbolTable();
             if (!this.Pass_1())
             {
                 Console.WriteLine("Created symbol table and finished first pass.");

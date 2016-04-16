@@ -14,3 +14,11 @@ D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.
 D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.csproj.GenerateResource.Cache
 D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.exe
 D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.pdb
+D:\Git\nand2tetris\HackAssembler\HackAssembler\bin\Debug\HackAssembler.exe.config
+D:\Git\nand2tetris\HackAssembler\HackAssembler\obj\Debug\HackAssembler.exe
+D:\Git\nand2tetris\HackAssembler\HackAssembler\obj\Debug\HackAssembler.pdb
+D:\Git\nand2tetris\HackAssembler\HackAssembler\bin\Debug\HackAssembler.exe
+D:\Git\nand2tetris\HackAssembler\HackAssembler\bin\Debug\HackAssembler.pdb
+D:\Git\nand2tetris\HackAssembler\HackAssembler\obj\Debug\HackAssembler.csprojResolveAssemblyReference.cache
+D:\Git\nand2tetris\HackAssembler\HackAssembler\obj\Debug\HackAssembler.AssemblerForm.resources
+D:\Git\nand2tetris\HackAssembler\HackAssembler\obj\Debug\HackAssembler.csproj.GenerateResource.Cache
