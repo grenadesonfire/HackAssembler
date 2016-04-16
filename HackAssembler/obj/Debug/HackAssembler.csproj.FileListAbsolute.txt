@@ -1,0 +1,16 @@
+D:\Programming\nand2Tetris\projects\06\HackAssembler\HackAssembler\bin\Debug\HackAssembler.exe.config
+D:\Programming\nand2Tetris\projects\06\HackAssembler\HackAssembler\bin\Debug\HackAssembler.exe
+D:\Programming\nand2Tetris\projects\06\HackAssembler\HackAssembler\bin\Debug\HackAssembler.pdb
+D:\Programming\nand2Tetris\projects\06\HackAssembler\HackAssembler\obj\Debug\HackAssembler.csprojResolveAssemblyReference.cache
+D:\Programming\nand2Tetris\projects\06\HackAssembler\HackAssembler\obj\Debug\HackAssembler.exe
+D:\Programming\nand2Tetris\projects\06\HackAssembler\HackAssembler\obj\Debug\HackAssembler.pdb
+D:\Programming\nand2Tetris\projects\06\HackAssembler\HackAssembler\obj\Debug\HackAssembler.AssemblerForm.resources
+D:\Programming\nand2Tetris\projects\06\HackAssembler\HackAssembler\obj\Debug\HackAssembler.csproj.GenerateResource.Cache
+D:\Programming\VisualStudio\HackAssembler\HackAssembler\bin\Debug\HackAssembler.exe.config
+D:\Programming\VisualStudio\HackAssembler\HackAssembler\bin\Debug\HackAssembler.exe
+D:\Programming\VisualStudio\HackAssembler\HackAssembler\bin\Debug\HackAssembler.pdb
+D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.csprojResolveAssemblyReference.cache
+D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.AssemblerForm.resources
+D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.csproj.GenerateResource.Cache
+D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.exe
+D:\Programming\VisualStudio\HackAssembler\HackAssembler\obj\Debug\HackAssembler.pdb
